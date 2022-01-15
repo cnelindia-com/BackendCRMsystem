@@ -1,0 +1,59 @@
+.header01{
+	background-color: black;
+}
+.name-website{
+	width:100%;
+	margin:auto;
+}
+.logout{
+	border-radius: 5px;
+	padding:0px 10px 0px 10px;
+	background-image: linear-gradient(#ffa808, #f76300, #ffa808);
+	color: white;
+}
+.logout:hover{
+
+	background-image: linear-gradient(#ffbb3d, #ff7a21, #ffbb3d);
+
+}
+.header02menu{
+	color: black;
+	padding: 5px 0 5px 0;
+}
+.header02menu i{
+	padding-right: 9px;
+}
+.header02menu:hover{
+	color: #ff6600;
+	border-bottom: 6px solid #ff6600;
+	cursor: pointer;
+}
+.header02menu.active{
+	color: #ff6600;
+	border-bottom: 6px solid #ff6600;
+	cursor: pointer;
+}
+.tableSetting{
+	overflow:auto;
+	width: 100%;
+}
+.my-table-tr-top{
+	background-image: linear-gradient(#ffa808, #f76300);
+}
+.out{
+	background-color: rgba(255, 158, 158,  0.8) 
+}
+.out:hover{
+	background-color: rgba(255, 158, 158,  1) 
+}
+.in:hover{
+	background-color: rgba(236,236,236,  1) 
+}
+.tabcontent {
+	display: none;
+}
+/*
+.container
+{
+	height:150vh !important;
+}*/
