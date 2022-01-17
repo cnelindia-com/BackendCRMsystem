@@ -1,3 +1,308 @@
+<?php
+$user=$_SESSION['user'];
+	if(isset($_GET['id']))
+	{
+		$edit_id = $_GET['id'];
+		$select_sql=mysqli_query($conn,"SELECT * From account WHERE id=".$edit_id);
+		if(mysqli_num_rows($select_sql)>0)
+		{
+			$get_account = mysqli_fetch_assoc($select_sql);
+			$username = $get_account['username'];
+			$fullname = $get_account['fullname'];
+			$phone = $get_account['phone'];
+			$usercode = $get_account['usercode'];
+			$email = $get_account['email'];
+			$dob = $get_account['dob'];
+			$currency = $get_account['currency'];
+			$vip = $get_account['vip'];
+			$status = $get_account['status'];
+			$productIDS = $get_account['productIDS'];
+			$adminuserid = $get_account['adminuserid'];
+			$remark = $get_account['remark'];
+			$createdON = $get_account['createdON'];
+			$bankdetail=$get_account['bankdetail'];
+		}
+		
+		if(isset($_POST['status']) && $_POST['status'] == 'Active')
+		{
+			$datetime= date("Y-m-d", strtotime("Now"));
+			
+			$createdon_obj=DateTime::createFromFormat("Y-m-d", "$datetime");	
+			$last_active=	$createdon_obj->format('Y-m-d H:i:s');
+				
+			$datetimesql=mysqli_query($conn, "UPDATE `account` SET `last_active`='$last_active' WHERE id = $edit_id");
+		}
+	}
+			
+	if(isset($_POST['add_new_deposit_transaction']))
+	{					
+		if($_POST['newtransaction_type']=='Deposit')
+		{			
+		//print_r($_POST);
+		$transaction_type =(isset($_POST['newtransaction_type']))?$_POST['newtransaction_type']:'';
+		$account_id = $edit_id;
+		$Transfer_Date_deposit = (isset($_POST['Transfer_Date_deposit']))?$_POST['Transfer_Date_deposit']:'';
+		$hours_deposit = (isset($_POST['hours_deposit']))?$_POST['hours_deposit']:'';
+		$minutes_deposit = (isset($_POST['minutes_deposit']))?$_POST['minutes_deposit']:'';
+		$seconds_deposit = (isset($_POST['seconds_deposit']))?$_POST['seconds_deposit']:'';
+		$Amount_deposit =(isset($_POST['Amount_deposit']))?$_POST['Amount_deposit']:'';
+		$payment_method_deposit = (isset($_POST['payment_method_deposit']))?$_POST['payment_method_deposit']:'';
+		$product_deposit = (isset($_POST['product_deposit']))?$_POST['product_deposit']:'';
+		$BankAccount_deposit = (isset($_POST['BankAccount_deposit']))?$_POST['BankAccount_deposit']:'';
+		$Reference_deposit = (isset($_POST['Reference_deposit']))?$_POST['Reference_deposit']:'';
+		$bonus_amount_deposit = (isset($_POST['bonus_amount_deposit']))?$_POST['bonus_amount_deposit']:'';
+		$Banktype_deposit = (isset($_POST['Banktype_deposit']))?$_POST['Banktype_deposit']:'';					
+		
+		//bonus transaction
+		$bonus_transaction_deposit = (isset($_POST['bonus_transaction_deposit'])) ? $_POST['bonus_transaction_deposit']:'';
+		
+		
+		$Instant_transaction_deposit =(isset($_POST['Instant_transaction_deposit']))?$_POST['Instant_transaction_deposit']:'';
+		
+		$remark_deposit = (isset($_POST['remark_deposit']))?$_POST['remark_deposit']:'';
+		
+		if(isset($_POST['Instant_transaction_deposit']))
+		{
+			$status='Approve';	
+		}
+		else
+		{
+			$status='NewTransaction';	
+		}
+		
+		$insertdeposit = "INSERT INTO transactions SET
+			`accountid`=$account_id,
+			`transactiontype`='$transaction_type',
+			`createdby`='$user',
+			`transferdate`='$Transfer_Date_deposit',
+			`hours`=$hours_deposit,
+			`minutes`=$minutes_deposit,
+			`seconds`=$seconds_deposit,
+			`amount`='$Amount_deposit',
+			`payment_method`='$payment_method_deposit',
+			`productid_from`=$product_deposit,
+			`bankid`=$BankAccount_deposit,
+			`reference_no`='$Reference_deposit',
+			`bonus_promotion_id`='$Banktype_deposit',
+			`bonus_amount`='$bonus_amount_deposit',
+			`instant_transaction`='$Instant_transaction_deposit',
+			`account_name`='',
+			`bank_account_number`='',
+			`withdrawal_bank_id`='',
+			`productid_to`='',
+			`deposit_transaction_id`='',
+			`remark`='$remark_deposit',
+			`status`='$status'			
+		";
+		if(mysqli_query($conn,$insertdeposit)==TRUE)
+		{
+			$deposit_transaction_id = mysqli_insert_id($conn);
+			
+			if($bonus_transaction_deposit == 'Bonus'){
+				$insert_bonus_transaction_for_deposit_sql = "INSERT INTO transactions SET `transactiontype` = 'Bonus', `accountid` = '$account_id', `createdby` = '$user', `transferdate` = '$Transfer_Date_deposit', `hours`= '$hours_deposit', `minutes` = '$minutes_deposit', `seconds` = '$seconds_deposit', `amount` = '$bonus_amount_deposit', `productid_from` = '$product_deposit', `instant_transaction` = '$Instant_transaction_deposit', deposit_transaction_id = '$deposit_transaction_id', `bonus_promotion_id` = '$Banktype_deposit', `remark`='$remark_deposit', `status`='$status'";
+				mysqli_query($conn, $insert_bonus_transaction_for_deposit_sql);
+				$bonus_transaction_id = mysqli_insert_id($conn);
+				
+				$update_t_sql = "UPDATE transactions SET bonus_promotion_id = '$bonus_transaction_id' WHERE id = '$deposit_transaction_id'";
+				mysqli_query($conn, $update_t_sql);
+			}
+			$success = 'Deposit Transaction added successfully.';
+		}
+		}
+	}
+	
+	if(isset($_POST['add_new_withdrawal_transaction']))
+	{
+		$transaction_type =(isset($_POST['newtransaction_type']))?$_POST['newtransaction_type']:'';
+		$account_id = $edit_id;
+		$Transfer_DateWithdrawal = (isset($_POST['Transfer_DateWithdrawal']))?$_POST['Transfer_DateWithdrawal']:'';
+		$hoursWithdrawal = (isset($_POST['hoursWithdrawal']))?$_POST['hoursWithdrawal']:'';
+		$minutesWithdrawal = (isset($_POST['minutesWithdrawal']))?$_POST['minutesWithdrawal']:'';
+		$secondsWithdrawal = (isset($_POST['secondsWithdrawal']))?$_POST['secondsWithdrawal']:'';
+		$AmountWithdrawal =(isset( $_POST['AmountWithdrawal']))?$_POST['AmountWithdrawal']:'';
+		$payment_methodWithdrawal = (isset($_POST['payment_methodWithdrawal']))?$_POST['payment_methodWithdrawal']:'';
+		$productWithdrawal = (isset($_POST['productWithdrawal']))?$_POST['productWithdrawal']:'';
+		$BankAccountWithdrawal = (isset($_POST['BankAccountWithdrawal']))?$_POST['BankAccountWithdrawal']:'';
+		$bankaccoutnumberWithdrawal = (isset($_POST['bankaccoutnumberWithdrawal']))?$_POST['bankaccoutnumberWithdrawal']:'';
+		$ReferenceWithdrawal = (isset($_POST['ReferenceWithdrawal']))?$_POST['ReferenceWithdrawal']:'';
+		
+		$Instant_transactionWithdrawal = (isset($_POST['Instant_transactionWithdrawal']))?$_POST['Instant_transactionWithdrawal']:'';
+		
+		$remarkWithdrawal = (isset($_POST['remarkWithdrawal']))?$_POST['remarkWithdrawal']:'';
+		$withdrawalaccountWithdrawal = (isset($_POST['withdrawalaccountWithdrawal']))?$_POST['withdrawalaccountWithdrawal']:'';
+		$account_name = (isset($_POST['account_name']))?$_POST['account_name']:'';				
+		
+		if(isset($_POST['Instant_transactionWithdrawal']))
+		{
+			$status='Approve';	
+		}
+		else
+		{
+			$status='NewTransaction';	
+		}
+		
+	 	$insertWithdrawal = "INSERT INTO transactions SET
+			`accountid`='$account_id',
+			`transactiontype`='$transaction_type',
+			`createdby`='$user',
+			`transferdate`='$Transfer_DateWithdrawal',
+			`hours`=$hoursWithdrawal,
+			`minutes`=$minutesWithdrawal,
+			`seconds`=$secondsWithdrawal,
+			`amount`='$AmountWithdrawal',
+			`payment_method`='$payment_methodWithdrawal',
+			`productid_from`='$productWithdrawal',
+			`bankid`='$BankAccountWithdrawal',
+			`reference_no`='$ReferenceWithdrawal',
+			`bonus_promotion_id`='',
+			`bonus_amount`='',
+			`instant_transaction`='$Instant_transactionWithdrawal',
+			`account_name`='$account_name',
+			`bank_account_number`='$bankaccoutnumberWithdrawal',
+			`withdrawal_bank_id`='$withdrawalaccountWithdrawal',
+			`productid_to`='',
+			`deposit_transaction_id`='',
+			`remark`='$remarkWithdrawal',
+			`status`='$status'			
+		";
+		if(mysqli_query($conn,$insertWithdrawal)==TRUE)
+		{
+			$success = 'Withdrawal Transaction added successfully.';
+		}
+	}
+	
+	if(isset($_POST['add_new_transfer_transaction']))
+	{
+		
+		$transaction_type =(isset($_POST['newtransaction_type']))?$_POST['newtransaction_type']:'';
+		$account_id = $edit_id;
+		$AmountTransfer = (isset($_POST['AmountTransfer']))?$_POST['AmountTransfer']:'';
+		$productfromTransfer = (isset($_POST['productfromTransfer']))?$_POST['productfromTransfer']:'';
+		$producttoTransfer = (isset($_POST['producttoTransfer']))?$_POST['producttoTransfer']:'';		
+		$Instant_transactionTransfer = (isset($_POST['Instant_transactionTransfer']))?$_POST['Instant_transactionTransfer']:'';			
+		$remarkTransfer = (isset($_POST['remarkTransfer']))?$_POST['remarkTransfer']:'';
+		
+		if(isset($_POST['Instant_transactionTransfer']))
+		{
+			$status='Approve';	
+		}
+		else
+		{
+			$status='NewTransaction';	
+		}				
+		
+		$transferdate = date('Y-m-d');
+	  	$hours = date('H');
+		$minutes = date('i');
+		$seconds = date('s');
+		
+	  	$insertTransfer = "INSERT INTO transactions SET
+			`accountid`='$account_id',
+			`transactiontype`='$transaction_type',
+			`createdby`='$user',
+			`transferdate`='$transferdate',
+			`hours`='$hours',
+			`minutes`='$minutes',
+			`seconds`='$seconds',
+			`amount`='$AmountTransfer',
+			`payment_method`='',
+			`productid_from`='$productfromTransfer',
+			`bankid`='',
+			`reference_no`='',
+			`bonus_promotion_id`='',
+			`bonus_amount`='',
+			`instant_transaction`='$Instant_transactionTransfer',
+			`account_name`='',
+			`bank_account_number`='',
+			`withdrawal_bank_id`='',
+			`productid_to`='$producttoTransfer',
+			`deposit_transaction_id`='',
+			`remark`='$remarkTransfer',
+			`status`='$status'			
+		";
+		if(mysqli_query($conn,$insertTransfer)==TRUE)
+		{
+			$success = 'Transfer Transaction added successfully.';
+		}
+		
+	}
+	
+	if(isset($_POST['add_new_bonusnew_transaction']))
+	{
+		
+		$transaction_type =(isset($_POST['newtransaction_type']))?$_POST['newtransaction_type']:'';
+		$account_id = $edit_id;
+		$Transfer_DateBonusnew = (isset($_POST['Transfer_DateBonusnew']))?$_POST['Transfer_DateBonusnew']:'';
+		$hoursBonusnew = (isset($_POST['hoursBonusnew']))?$_POST['hoursBonusnew']:'';
+		$minutesBonusnew = (isset($_POST['minutesBonusnew']))?$_POST['minutesBonusnew']:'';
+		$secondsBonusnew = (isset($_POST['secondsBonusnew']))?$_POST['secondsBonusnew']:'';
+		$AmountBonusnew = (isset($_POST['AmountBonusnew']))?$_POST['AmountBonusnew']:'';
+		$productBonusnew = (isset($_POST['productBonusnew']))?$_POST['productBonusnew']:'';
+		$DepositTransactionIdBonusnew = (isset($_POST['DepositTransactionIdBonusnew']))?$_POST['DepositTransactionIdBonusnew']:'';
+		$bonustypeBonusnew = (isset($_POST['bonustypeBonusnew']))?$_POST['bonustypeBonusnew']:'';	
+		$Instant_transactionBonusnew = (isset($_POST['Instant_transactionBonusnew']))?$_POST['Instant_transactionBonusnew']:'';	
+		$remarkBonusnew = (isset($_POST['remarkBonusnew']))?$_POST['remarkBonusnew']:'';		
+		
+		if(isset($_POST['Instant_transactionBonusnew']))
+		{
+			$status='Approve';	
+		}
+		else
+		{
+			$status='NewTransaction';	
+		}
+		
+		$insertBonus = "INSERT INTO transactions SET
+			`accountid`='$account_id',
+			`transactiontype`='$transaction_type',
+			`createdby`='$user',
+			`transferdate`='$Transfer_DateBonusnew',
+			`hours`=$hoursBonusnew,
+			`minutes`=$minutesBonusnew,
+			`seconds`=$secondsBonusnew,
+			`amount`='$AmountBonusnew',
+			`payment_method`='',
+			`productid_from`='$productBonusnew',
+			`bankid`='',
+			`reference_no`='',
+			`bonus_promotion_id`='$bonustypeBonusnew',
+			`bonus_amount`='',
+			`instant_transaction`='$Instant_transactionBonusnew',
+			`account_name`='',
+			`bank_account_number`='',
+			`withdrawal_bank_id`='',
+			`productid_to`='',
+			`deposit_transaction_id`='$DepositTransactionIdBonusnew',
+			`remark`='$remarkBonusnew',
+			`status`='$status'			
+		";
+		if(mysqli_query($conn,$insertBonus)==TRUE)
+		{
+			$success = 'Bonus Transaction added successfully.';
+		}
+		
+	}
+
+	
+?> 
+
+  <?php 
+	if(!empty($success))
+	{
+	?>
+	<div class="row">
+    	<div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="alert alert-success" role="alert" style="text-align: center;">
+              <?php echo $success;?>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+	<?php
+	}
+	?>  
+
 <div class="row" id="subtabs">
     <div class="col-sm-12">
         <fieldset style="border: solid 1px #a0a0a0; padding: 2px 30px;">
@@ -502,7 +807,7 @@
                         <textarea name="remarkTransfer"></textarea>
                   </div>
                 </div>                            
-            <input type="hidden" name="newtransaction_type" id="newtransaction_type" value="Deposit"/>
+            <input type="hidden" name="newtransaction_type" id="newtransaction_type" value="Transfer"/>
 
             </fieldset>
             <div class="btn_bar1" style="bottom:0px;text-align: center;">
@@ -655,7 +960,7 @@
                         <textarea name="remarkBonusnew"></textarea>
                   </div>
                 </div>                            
-             <input type="hidden" name="newtransaction_type" id="newtransaction_type" value="Deposit"/>
+             <input type="hidden" name="newtransaction_type" id="newtransaction_type" value="Bonus"/>
 
             </fieldset>
             <div class="btn_bar1" style="bottom:0px;text-align: center;">
