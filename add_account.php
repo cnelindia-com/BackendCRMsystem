@@ -1170,7 +1170,7 @@ html, body {
                 	<script>											
 						setTimeout(function(){
 							$("#Transactionid").trigger('click');
-						}, 100);												
+						}, 1000);												
 					</script>
                 <?php
 					}
@@ -1540,7 +1540,7 @@ html, body {
 
 <script>
 function account_page()
-{	
+{
 	window.location.href='https://stage2.readyforyourreview.com/customer.php';	
 }
 $(document).ready(function() {
