@@ -477,7 +477,9 @@ container-fluid {
 	background:#dedede;
 	}
 .form-group {
-    margin-bottom: 3px !important;
+    margin-bottom: -4px !important;
+	display: inline-block;
+	width: 100%;
 }	
 legend{
 	font-weight: bold;
@@ -604,9 +606,6 @@ html, body {
 #Account .form-group label {
 	width: 115px;
 }
-form input[type="text"] {
-	width: 100%;
-}
 </style>
 <!DOCTYPE html>
 <html lang="en">
@@ -728,7 +727,7 @@ form input[type="text"] {
         <?php 
         if($phone!='')
         {
-            $phone = json_decode($phone);
+            $phone = json_decode($phone);						
 			$countphone=1;
             foreach($phone as $number)
             {
@@ -1436,7 +1435,16 @@ form input[type="text"] {
 			<?php 
 			
 				include('edit_new_transaction.php');
-				
+				if(isset($_POST['add_new_deposit_transaction']) || isset($_POST['add_new_withdrawal_transaction']) || isset($_POST['add_new_transfer_transaction']) || isset($_POST['add_new_bonusnew_transaction']))
+				{
+			?>
+            	<script>
+					setTimeout(function(){
+						$("#NewTransactionid").trigger('click');
+					}, 1000);
+				</script>
+            <?php	
+				}				
 			?>
             
         </div>
