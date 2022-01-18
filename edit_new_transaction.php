@@ -1,38 +1,5 @@
 <?php
-$user=$_SESSION['user'];
-	if(isset($_GET['id']))
-	{
-		$edit_id = $_GET['id'];
-		$select_sql=mysqli_query($conn,"SELECT * From account WHERE id=".$edit_id);
-		if(mysqli_num_rows($select_sql)>0)
-		{
-			$get_account = mysqli_fetch_assoc($select_sql);
-			$username = $get_account['username'];
-			$fullname = $get_account['fullname'];
-			$phone = $get_account['phone'];
-			$usercode = $get_account['usercode'];
-			$email = $get_account['email'];
-			$dob = $get_account['dob'];
-			$currency = $get_account['currency'];
-			$vip = $get_account['vip'];
-			$status = $get_account['status'];
-			$productIDS = $get_account['productIDS'];
-			$adminuserid = $get_account['adminuserid'];
-			$remark = $get_account['remark'];
-			$createdON = $get_account['createdON'];
-			$bankdetail=$get_account['bankdetail'];
-		}
-		
-		if(isset($_POST['status']) && $_POST['status'] == 'Active')
-		{
-			$datetime= date("Y-m-d", strtotime("Now"));
-			
-			$createdon_obj=DateTime::createFromFormat("Y-m-d", "$datetime");	
-			$last_active=	$createdon_obj->format('Y-m-d H:i:s');
-				
-			$datetimesql=mysqli_query($conn, "UPDATE `account` SET `last_active`='$last_active' WHERE id = $edit_id");
-		}
-	}
+$user=$_SESSION['user']; 	
 			
 	if(isset($_POST['add_new_deposit_transaction']))
 	{					
@@ -302,6 +269,15 @@ $user=$_SESSION['user'];
 	<?php
 	}
 	?>  
+
+<style>
+
+.bonusdiv,.DepositTransactionId
+{
+	display:none;
+}
+
+</style>
 
 <div class="row" id="subtabs">
     <div class="col-sm-12">
@@ -971,7 +947,7 @@ $user=$_SESSION['user'];
             <!-- <div class="btn_bar1" style="bottom:0px;text-align: center;">
                 <input class="btn1" type="submit" name="Bonusnew" value="Submit">&nbsp;
                 <input id="backLink1" class="btn1" type="button" name="sbtt" value="Back" onclick="history.go(-1);">
-            </div>-->
+            </div> -->
         </div>        
     </div>       
 </div>
