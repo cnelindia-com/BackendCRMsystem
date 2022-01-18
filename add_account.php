@@ -20,11 +20,9 @@ if(isset($_POST['sbtt']))
 	$productIDS = json_encode($_POST['productids']);
 	$date = date('Y-m-d H:i:s');
 	$bankdetail=json_encode($_POST['bankaccount']);
-	
-	
-	if(isset($_POST['edit_account_id']) && !empty($_POST['edit_account_id']))
-	{		
 		
+	if(isset($_POST['edit_account_id']) && !empty($_POST['edit_account_id']))
+	{				
 		$updateaccount = "UPDATE account SET
 			`username`='$username',
 			`fullname`='$full_name',
@@ -38,7 +36,7 @@ if(isset($_POST['sbtt']))
 			`productIDS`='$productIDS',
 			`adminuserid`='$admin_user',
 			`remark`='$remark',
-			`bankdetail`='$bankdetail', where id=".$_POST['edit_account_id'];			
+			`bankdetail`='$bankdetail' where id=".$_POST['edit_account_id'];			
 		if(mysqli_query($conn,$updateaccount)==TRUE)
 		{
 			$success = 'Account updated successfully.';
@@ -376,10 +374,7 @@ if(isset($_GET['id']))
 	background: gray !important;
 	border: gray !important;
 }
-.bonusdiv,.DepositTransactionId
-{
-	display:none;
-}
+
 body {
     font-size: 14px !important;
     color: #000;
@@ -691,13 +686,13 @@ html, body {
             <fieldset style="padding-left: 5px;background:#cccccc;border-radius: 4px;padding-bottom: 10px;">
                 <legend style="background:#fff; width: auto; padding: 4px;">Menu</legend>
                 <div>
-                  <label class="control-label col-sm-1" style="margin-left: 10px;padding-top: unset;"></label>
+                  <!-- <label class="control-label col-sm-1" style="margin-left: 10px;padding-top: unset;"></label> -->
 					<div class="col-sm-12" style="padding-left: 0;">                       
 					  <ul style="background: right;border: none;">
-						<li><a class="btn btn-outline-dark" href="#Account" id="Accountid">Account</a></li>
-						<li><a class="btn btn-outline-dark" href="#Transaction" id="Transactionid">Transaction</a></li>
-						<li><a class="btn btn-outline-dark" href="#NewTransaction" id="NewTransactionid"> New Transaction</a></li>
-						 <li><a class="btn btn-outline-dark" href="#Bonus" id="Bonusid">Bonus</a></li>
+						<li><a class="btn btn-outline-dark" href="#Account" id="Accountid" class="tablinks" onclick=openTabs(evt, Account);>Account</a></li>
+						<li><a class="btn btn-outline-dark" href="#Transaction" id="Transactionid" class="tablinks" onclick=openTabs(evt, Transaction);>Transaction</a></li>
+						<li><a class="btn btn-outline-dark" href="#NewTransaction" id="NewTransactionid" class="tablinks" onclick=openTabs(evt, NewTransaction);> New Transaction</a></li>
+						<li><a class="btn btn-outline-dark" href="#Bonus" id="Bonusid" class="tablinks" onclick=openTabs(evt, Bonus);>Bonus</a></li>
 					  </ul>
                    </div>
                 </div>
@@ -852,8 +847,8 @@ html, body {
         </div>
         </fieldset>-->
       
-        <fieldset style="border: solid 1px #a0a0a0; padding: 2px 30px;">
-      <legend style="background:#fff; width: 48px; padding: 4px;">Other</legend>
+    	<fieldset style="border: solid 1px #a0a0a0; padding: 2px 30px;">
+      	<legend style="background:#fff; width: 48px; padding: 4px;">Other</legend>
         <!--<div class="form-group">
           <label class="control-label col-sm-3" style="margin-left: 10px;">Registered IP</label>
         </div>
@@ -878,8 +873,8 @@ html, body {
          <div class="form-group">
           <label class="control-label col-sm-3" style="margin-left: 10px;">None</label>
         </div>-->
-        </fieldset>
-        </div>
+    	</fieldset>
+    	</div>
           <div class="col-sm-6">
           <fieldset style="border: solid 1px #a0a0a0; padding: 2px 30px;">
           <legend style="background:#fff; width: 140px; padding: 4px;">Product Username</legend>
@@ -1674,7 +1669,19 @@ function cleardate()
     $( "#tabs" ).tabs();
 	 $( "#subtabs" ).tabs();
   } );
-  </script>
+
+  function openTabs(evt, tabsname){
+	var tablinks=document.getElementsByClassName("tablinks");
+
+	for(var i=0; i<tablinks.length; i++)	
+	{
+		tablinks[i].className=tablinks[i].className.replace(" active", "");
+	}
+	document.getElementById(tabsname).style.display = "block";
+	evt.currentTarget.className+= " active";
+  }
+
+</script>
 </body>
 </html>
 <?php
