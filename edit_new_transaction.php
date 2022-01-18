@@ -477,7 +477,7 @@ $user=$_SESSION['user'];
                         
             <div class="btn_bar1" style="bottom:0px;text-align: center;">
                 <input class="btn1" type="submit" name="add_new_deposit_transaction" value="Submit">&nbsp;
-                <input id="backLink1" class="btn1" type="button" name="sbtt" value="Back" onclick="history.go(-1);">
+                <input id="backLink1" class="btn1" type="button" name="sbtt" value="Back" onclick="account_page();">
             </div>
                 
             </form>
@@ -692,7 +692,7 @@ $user=$_SESSION['user'];
             </fieldset>
             <div class="btn_bar1" style="bottom:0px;text-align: center;">
                 <input class="btn1" type="submit" name="add_new_withdrawal_transaction" value="Submit">&nbsp;
-                <input id="backLink1" class="btn1" type="button" name="sbtt" value="Back" onclick="history.go(-1);">
+                <input id="backLink1" class="btn1" type="button" name="sbtt" value="Back" onclick="account_page();">
             </div>
             </form>
             <!-- <div class="btn_bar1" style="bottom:0px;text-align: center;">
@@ -788,7 +788,7 @@ $user=$_SESSION['user'];
             </fieldset>
             <div class="btn_bar1" style="bottom:0px;text-align: center;">
                 <input class="btn1" type="submit" name="add_new_transfer_transaction" value="Submit">&nbsp;
-                <input id="backLink1" class="btn1" type="button" name="sbtt" value="Back" onclick="history.go(-1);">
+                <input id="backLink1" class="btn1" type="button" name="sbtt" value="Back" onclick="account_page();">
             </div>
             </form>
             <!-- <div class="btn_bar1" style="bottom:0px;text-align: center;">
@@ -941,7 +941,7 @@ $user=$_SESSION['user'];
             </fieldset>
             <div class="btn_bar1" style="bottom:0px;text-align: center;">
                 <input class="btn1" type="submit" name="add_new_bonusnew_transaction" value="Submit">&nbsp;
-                <input id="backLink1" class="btn1" type="button" name="sbtt" value="Back" onclick="history.go(-1);">
+                <input id="backLink1" class="btn1" type="button" name="sbtt" value="Back" onclick="account_page();">
             </div>
             </form>
             <!-- <div class="btn_bar1" style="bottom:0px;text-align: center;">
