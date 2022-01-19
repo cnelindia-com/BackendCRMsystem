@@ -285,7 +285,7 @@ $user=$_SESSION['user'];
 ?>
   <script>
     setTimeout(function(){
-      $("#NewTransactionid").trigger('click');
+      $("a[href='#NewTransaction']").trigger('click');
     }, 1000);
   </script>
 <?php				
