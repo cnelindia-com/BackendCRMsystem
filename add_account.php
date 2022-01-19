@@ -1429,19 +1429,8 @@ if(isset($_GET['id']))
 					
 			<div id="NewTransaction" style="display:none;">
 				
-				<?php 
-				
-					include('edit_new_transaction.php');
-					if(isset($_POST['add_new_deposit_transaction']) || isset($_POST['add_new_withdrawal_transaction']) || isset($_POST['add_new_transfer_transaction']) || isset($_POST['add_new_bonusnew_transaction']))
-					{
-				?>
-					<script>
-						setTimeout(function(){
-							$("#NewTransactionid").trigger('click');
-						}, 1000);
-					</script>
-				<?php	
-					}				
+				<?php 			
+					include('edit_new_transaction.php');									
 				?>
 				
 			</div>
