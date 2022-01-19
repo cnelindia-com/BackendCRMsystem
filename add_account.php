@@ -723,7 +723,18 @@ if(isset($_GET['id']))
 				<input type="text" class="form-control" name="full_name" value="<?php echo $fullname;?>" required>
 			</div>
 			</div>
-			<?php 
+			<?php
+			
+			if(isset($_POST['sbtt']))
+			{
+			?>
+				<script>
+					setTimeout(() => {
+						$("a[href='#Account']").trigger('click');
+					}, 1000);
+				</script>
+			<?php
+			}
 			if($phone!='')
 			{
 				$phone = json_decode($phone);						
@@ -797,8 +808,8 @@ if(isset($_GET['id']))
 			<label class="control-label col-sm-3">Currency</label>
 			<div class="col-sm-7">
 			<select name="currency">
-					<option value="MYR" <?php if($currency=='MYR'){ echo 'checked';}?>>MYR</option>
-					<option value="TNG" <?php if($currency=='TNG'){ echo 'checked';}?>>TNG</option>
+					<option value="MYR" <?php if($currency=='MYR'){ echo 'selected';}?>>MYR</option>
+					<option value="TNG" <?php if($currency=='TNG'){ echo 'selected';}?>>TNG</option>
 			</select>
 			
 			</div>
@@ -1174,7 +1185,7 @@ if(isset($_GET['id']))
 					<?php
 						}
 					?>
-					
+
 					<div class="resulttable" style="overflow: scroll;">
 			
 						<span class="counter pull-right"></span>
