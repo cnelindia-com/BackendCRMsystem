@@ -632,14 +632,14 @@ if(isset($_GET['id']))
 		<span>|</span>-->
 		<a href="vip_setting.php" id="sc8_1">VIP Setting</a>
 	</div>
-
-	<div class="container">
+	
 	<?php if($edit_id!==''){?>
 	<center><h2><strong>Edit Account</strong></h2></center>
 	<?php }else{?>
 	<center><h2><strong>New Account</strong></h2></center>
-	<?php }?>
+	
 	<?php 
+		} 
 		if(!empty($success))
 		{
 		?>
@@ -654,14 +654,16 @@ if(isset($_GET['id']))
 		</div>
 		<?php
 		}
-		?>
-	<form class="form-horizontal" method="post">
-		<input type="hidden" name="edit_account_id" value="<?php echo $edit_id;?>"/>
+	?>
+
 	<div class="container-fluid" id="tabs">
+
+		<form class="form-horizontal" method="post">
+		<input type="hidden" name="edit_account_id" value="<?php echo $edit_id;?>"/>	
 	
-	<?php if($edit_id!==''){?>
+		<?php if($edit_id!==''){?>
 		
-	<div class="row">
+		<div class="row">
 			<div class="col-sm-12">
 				<fieldset style="padding-left: 5px;background:#cccccc;border-radius: 4px;padding-bottom: 10px;">
 					<legend style="background:#fff; width: 137px; padding: 4px;">Account Search</legend>
@@ -691,10 +693,10 @@ if(isset($_GET['id']))
 					<!-- <label class="control-label col-sm-1" style="margin-left: 10px;padding-top: unset;"></label> -->
 						<div class="col-sm-12" style="padding-left: 0;">                       
 						<ul style="background: right;border: none;">
-							<li><a class="btn btn-outline-dark" href="#Account" id="Accountid">Account</a></li>
-							<li><a class="btn btn-outline-dark" href="#Transaction" id="Transactionid">Transaction</a></li>
-							<li><a class="btn btn-outline-dark" href="#NewTransaction" id="NewTransactionid"> New Transaction</a></li>
-							<li><a class="btn btn-outline-dark" href="#Bonus" id="Bonusid">Bonus</a></li>
+							<li><a class="btn btn-outline-dark" href="#Account">Account</a></li>
+							<li><a class="btn btn-outline-dark" href="#Transaction">Transaction</a></li>
+							<li><a class="btn btn-outline-dark" href="#NewTransaction"> New Transaction</a></li>
+							<li><a class="btn btn-outline-dark" href="#Bonus">Bonus</a></li>
 						</ul>
 					</div>
 					</div>
@@ -1051,7 +1053,7 @@ if(isset($_GET['id']))
 				background:#fff;
 			}						
 			</style>
-			<div id="Transaction" style="display:none;">
+			<div id="Transaction">
 				<fieldset style="border: solid 1px #a0a0a0; padding: 2px 30px;">
 					<legend style="background:#fff; width: auto; padding: 4px;">Transaction Details</legend>
 					<form method="post" id="transactionform">
@@ -1166,7 +1168,7 @@ if(isset($_GET['id']))
 					?>
 						<script>											
 							setTimeout(function(){
-								$("#Transactionid").trigger('click');
+								$("a[href='#Transaction']").trigger('click');
 							}, 1000);												
 						</script>
 					<?php
@@ -1427,7 +1429,7 @@ if(isset($_GET['id']))
 				</fieldset>
 			</div>
 					
-			<div id="NewTransaction" style="display:none;">
+			<div id="NewTransaction">
 				
 				<?php 			
 					include('edit_new_transaction.php');									
@@ -1435,7 +1437,7 @@ if(isset($_GET['id']))
 				
 			</div>
 			
-			<div id="Bonus" style="display:none;">
+			<div id="Bonus">
 				<form method="post">
 					<input type="button" class="btn btn-secondary" name="exportreport" value="Export Report"/>
 			<div>
@@ -1616,35 +1618,36 @@ if(isset($_GET['id']))
 			}
 		});	
 		
-	});
+	});	
 
-	$(document).ready(function(e) {
-		$("#Accountid").click(function(){
-			$("#Account").show();
-			$("#Bonus").hide();
-			$("#NewTransaction").hide();
-			$("#Transaction").hide();
-		});
-		$("#Bonusid").click(function(){
-			$("#Bonus").show();
-			$("#Account").hide();
-			$("#NewTransaction").hide();
-			$("#Transaction").hide();		
-		});
-		$("#NewTransactionid").click(function(){
-			$("#NewTransaction").show();
-			$("#Bonus").hide();
-			$("#Account").hide();
-			$("#Transaction").hide();		
-		});
-		$("#Transactionid").click(function(){
-			$("#Transaction").show();
-			$("#Bonus").hide();
-			$("#NewTransaction").hide();
-			$("#Account").hide();						
-		});			
-	});
+$(document).ready(function(){
 
+  $("a[href='#NewTransaction']").on('click', function(){
+    $("#NewTransaction").show();
+    $("#Account").hide();
+    $("#Transaction").hide();
+    $("#Bonus").hide();
+  });                           
+  $("a[href='#Account']").on('click', function(){
+    $("#Account").show();
+    $("#NewTransaction").hide();
+    $("#Transaction").hide();
+    $("#Bonus").hide();
+  });
+  $("a[href='#Transaction']").on('click', function(){
+    $("#Transaction").show();
+    $("#NewTransaction").hide();
+    $("#Account").hide();
+    $("#Bonus").hide();
+  });
+  $("a[href='#Bonus']").on('click', function(){
+    $("#Bonus").show();
+    $("#Account").hide();
+    $("#Transaction").hide();
+    $("#NewTransaction").hide();
+  });
+
+});
 	function populateDate(fromdate,todate)
 	{
 		$("#fromdate").val(fromdate+' 00:00:00');	
@@ -1654,7 +1657,7 @@ if(isset($_GET['id']))
 	{
 		$("#fromdate").val('');	
 		$("#todate").val('');
-	}	
+	}		
 	$(function(){
 		$("#tabs").tabs({
             cache: true
