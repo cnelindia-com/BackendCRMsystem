@@ -287,7 +287,7 @@ $user=$_SESSION['user'];
     setTimeout(function(){
       $("a[href='#NewTransaction']").trigger('click');
     }, 1000);
-  </script>
+  </script>  
 <?php				
   }
 ?>
@@ -321,7 +321,7 @@ $user=$_SESSION['user'];
                  <label class="control-label col-sm-2" style="margin-left: 10px;padding-top: unset;">Username</label>
                  
 	                <div class="col-sm-9">
-                        <input type="text" name="username_deposit" value="<?php echo $username;?>" readonly/>
+                    <input type="text" name="username_deposit" value="<?php echo $username;?>" readonly/>
                   </div>
                 </div>
                 <div class="form-group">
