@@ -279,6 +279,19 @@ $user=$_SESSION['user'];
 
 </style>
 
+<?php	
+  if(isset($_POST['add_new_deposit_transaction']) || isset($_POST['add_new_withdrawal_transaction']) || isset($_POST['add_new_transfer_transaction']) || isset($_POST['add_new_bonusnew_transaction']))
+  {
+?>
+  <script>
+    setTimeout(function(){
+      $("#NewTransactionid").trigger('click');
+    }, 1000);
+  </script>
+<?php				
+  }
+?>
+
 <div class="row" id="subtabs">
     <div class="col-sm-12">
         <fieldset style="border: solid 1px #a0a0a0; padding: 2px 30px;">
