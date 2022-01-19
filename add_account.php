@@ -1065,7 +1065,7 @@ if(isset($_GET['id']))
 				background:#fff;
 			}						
 			</style>
-			<div id="Transaction">
+			<div id="Transaction" style="display:none;">
 				<fieldset style="border: solid 1px #a0a0a0; padding: 2px 30px;">
 					<legend style="background:#fff; width: auto; padding: 4px;">Transaction Details</legend>
 					<form method="post" id="transactionform">
@@ -1442,7 +1442,7 @@ if(isset($_GET['id']))
 				</fieldset>
 			</div>
 					
-			<div id="NewTransaction">
+			<div id="NewTransaction" style="display:none;">
 				
 				<?php 			
 					include('edit_new_transaction.php');									
@@ -1450,7 +1450,7 @@ if(isset($_GET['id']))
 				
 			</div>
 			
-			<div id="Bonus">
+			<div id="Bonus" style="display:none;">
 				<form method="post">
 					<input type="button" class="btn btn-secondary" name="exportreport" value="Export Report"/>
 			<div>
