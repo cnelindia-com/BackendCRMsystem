@@ -1174,6 +1174,7 @@ if(isset($_GET['id']))
 					<?php
 						}
 					?>
+					
 					<div class="resulttable" style="overflow: scroll;">
 			
 						<span class="counter pull-right"></span>
