@@ -1,6 +1,7 @@
 <?php
 session_start();
 include('header.php');
+// include('config.php');
 $user=$_SESSION['user'];
 $success = '';
 
@@ -654,11 +655,9 @@ if(isset($_GET['id']))
 		</div>
 		<?php
 		}
-	?>
+	?>	
 
-	<div class="container-fluid" id="tabs">
-
-		<form class="form-horizontal" method="post">
+	<form class="form-horizontal" method="post">
 		<input type="hidden" name="edit_account_id" value="<?php echo $edit_id;?>"/>	
 	
 		<?php if($edit_id!==''){?>
@@ -691,6 +690,7 @@ if(isset($_GET['id']))
 					<legend style="background:#fff; width: auto; padding: 4px;">Menu</legend>
 					<div>
 					<!-- <label class="control-label col-sm-1" style="margin-left: 10px;padding-top: unset;"></label> -->
+					<div class="container-fluid" id="tabs">
 						<div class="col-sm-12" style="padding-left: 0;">                       
 						<ul style="background: right;border: none;">
 							<li><a class="btn btn-outline-dark" href="#Account">Account</a></li>
@@ -698,6 +698,7 @@ if(isset($_GET['id']))
 							<li><a class="btn btn-outline-dark" href="#NewTransaction"> New Transaction</a></li>
 							<li><a class="btn btn-outline-dark" href="#Bonus">Bonus</a></li>
 						</ul>
+						</div>
 					</div>
 					</div>
 				</fieldset>
@@ -1043,7 +1044,7 @@ if(isset($_GET['id']))
 			<div class="form-group">
 			<label class="control-label col-sm-3">Remark</label>
 			<div class="col-sm-7">
-				<textarea rows="4" cols="50" name="remark"><?php echo $remark;?></textarea>
+				<textarea rows="4" cols="50" name="remark"><?php if(isset($_POST['remark'])){echo $_POST['remark'];}?></textarea>
 			</div>
 			</div>
 			</fieldset>
@@ -1544,6 +1545,35 @@ if(isset($_GET['id']))
 	{
 		window.location.href='customer.php';	
 	}
+	$(document).ready(function(){
+
+		$("a[href='#NewTransaction']").on('click', function(){
+			$("#NewTransaction").show();
+			$("#Account").hide();
+			$("#Transaction").hide();
+			$("#Bonus").hide();
+		});                           
+		$("a[href='#Account']").on('click', function(){
+			$("#Account").show();
+			$("#NewTransaction").hide();
+			$("#Transaction").hide();
+			$("#Bonus").hide();
+		});
+		$("a[href='#Transaction']").on('click', function(){
+			$("#Transaction").show();
+			$("#NewTransaction").hide();
+			$("#Account").hide();
+			$("#Bonus").hide();
+		});
+		$("a[href='#Bonus']").on('click', function(){
+			$("#Bonus").show();
+			$("#Account").hide();
+			$("#Transaction").hide();
+			$("#NewTransaction").hide();
+		});
+
+	});
+
 	$(document).ready(function() {
 		var max_fields      = 10; //maximum input boxes allowed
 		var wrapper   		= $(".input_fields_wrap"); //Fields wrapper
@@ -1632,34 +1662,6 @@ if(isset($_GET['id']))
 		
 	});	
 
-$(document).ready(function(){
-
-  $("a[href='#NewTransaction']").on('click', function(){
-    $("#NewTransaction").show();
-    $("#Account").hide();
-    $("#Transaction").hide();
-    $("#Bonus").hide();
-  });                           
-  $("a[href='#Account']").on('click', function(){
-    $("#Account").show();
-    $("#NewTransaction").hide();
-    $("#Transaction").hide();
-    $("#Bonus").hide();
-  });
-  $("a[href='#Transaction']").on('click', function(){
-    $("#Transaction").show();
-    $("#NewTransaction").hide();
-    $("#Account").hide();
-    $("#Bonus").hide();
-  });
-  $("a[href='#Bonus']").on('click', function(){
-    $("#Bonus").show();
-    $("#Account").hide();
-    $("#Transaction").hide();
-    $("#NewTransaction").hide();
-  });
-
-});
 	function populateDate(fromdate,todate)
 	{
 		$("#fromdate").val(fromdate+' 00:00:00');	
@@ -1670,9 +1672,9 @@ $(document).ready(function(){
 		$("#fromdate").val('');	
 		$("#todate").val('');
 	}		
-	$(function(){
+	$(function(){		
 		$("#tabs").tabs({
-            cache: true
+            cache: false
         });        
 		$("#subtabs").tabs();
 	});
