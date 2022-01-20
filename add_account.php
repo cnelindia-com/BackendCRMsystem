@@ -809,8 +809,8 @@ html, body {
           <label class="control-label col-sm-3">Currency</label>
           <div class="col-sm-7">
            <select name="currency">
-                <option value="MYR" <?php if($currency=='MYR'){ echo 'checked';}?>>MYR</option>
-                <option value="TNG" <?php if($currency=='TNG'){ echo 'checked';}?>>TNG</option>
+                <option value="MYR" <?php if($currency=='MYR'){ echo 'selected';}?>>MYR</option>
+                <option value="TNG" <?php if($currency=='TNG'){ echo 'selected';}?>>TNG</option>
            </select>
            
           </div>
