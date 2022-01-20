@@ -637,7 +637,6 @@ html, body {
     <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
 </head>
 <body background="#cccccc">
-hello
 <div id="sc8" class="tabcontent" style="display: block;">
 	<a href="customer.php" id="sc8_1" style="margin-left:18px;" class="actives">Account</a>
     <span>|</span>
