@@ -1,6 +1,8 @@
 <?php
 $user=$_SESSION['user']; 	
-			
+
+if(isset($_POST['add_new_deposit_transaction']) || isset($_POST['add_new_withdrawal_transaction']) || isset($_POST['add_new_bonusnew_transaction']) || isset($_POST['add_new_transfer_transaction']))
+{
 	if(isset($_POST['add_new_deposit_transaction']))
 	{					
 		if($_POST['newtransaction_type']=='Deposit')
@@ -249,7 +251,7 @@ $user=$_SESSION['user'];
 		}
 		
 	}
-
+}
 	
 ?> 
 
